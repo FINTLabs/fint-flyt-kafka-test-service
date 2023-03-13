@@ -1,6 +1,17 @@
+fint:
+  flyt:
+    resource-server:
+      security:
+        api:
+          internal-client:
+            enabled: true
+            authorized-client-ids: ${fint.sso.client-id}
+  application-id: fint-flyt-kafka-test-service
+server:
+  error:
+    include-message: always
 spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: https://idp.felleskomponent.no/nidp/oauth/nam
+  profiles:
+    include:
+      - flyt-kafka
+      - flyt-resource-server

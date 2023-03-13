@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.7'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '2.7.9'
+    id 'io.spring.dependency-management' version '1.1.0'
     id 'java'
     id 'groovy'
 }
@@ -36,6 +36,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.82.Final:osx-aarch_64'
 
+    implementation 'org.springframework.security:spring-security-oauth2-client:5.6.0'
+
+
+    implementation 'javax.validation:validation-api'
+
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -46,6 +51,13 @@ dependencies {
     testImplementation 'cglib:cglib-nodep:3.3.0'
     testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
     testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'no.fintlabs:fint-kafka:2.3.0'
+    implementation 'no.fintlabs:fint-flyt-kafka:2.2.0'
+
+    implementation 'no.fintlabs:fint-flyt-resource-server:1.1.0'
+
 }
 
 test {
