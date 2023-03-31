@@ -26,7 +26,7 @@ public class SimpleSakInstanceProducerService {
     ) {
         this.simpleJournalpostInstanceEventProducer = eventProducerFactory.createProducer(KafkaTestMessage.class);
         this.topicNameParameters = EventTopicNameParameters.builder()
-                .eventName("egrunnerverv-journalpost-instance")
+                .eventName("egrunnerverv-sak-instance")
                 .build();
         if (retentionTimeInDays != null) {
             eventTopicService.ensureTopic(topicNameParameters, Duration.ofDays(retentionTimeInDays).toMillis());
