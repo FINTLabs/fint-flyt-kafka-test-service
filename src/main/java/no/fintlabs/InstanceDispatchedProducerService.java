@@ -10,13 +10,13 @@ import no.fintlabs.model.KafkaTestMessage;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KafkaTestMessageProducerService {
+public class InstanceDispatchedProducerService {
 
 
     private final InstanceFlowEventProducer<KafkaTestMessage> kafkaTestMessageInstanceFlowEventProducer;
     private final EventTopicNameParameters eventTopicNameParameters;
 
-    public KafkaTestMessageProducerService(
+    public InstanceDispatchedProducerService(
             InstanceFlowEventProducerFactory instanceFlowEventProducerFactory,
             EventTopicService eventTopicService
 

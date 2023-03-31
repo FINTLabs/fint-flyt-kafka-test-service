@@ -1,5 +1,7 @@
 fint:
   flyt:
+    egrunnerverv:
+      retentionTimeInDays: 30
     resource-server:
       security:
         api:

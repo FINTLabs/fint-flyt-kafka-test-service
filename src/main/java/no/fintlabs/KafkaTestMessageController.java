@@ -17,12 +17,14 @@ import static no.fintlabs.resourceserver.UrlPaths.INTERNAL_CLIENT_API;
 @RequestMapping(INTERNAL_CLIENT_API + "/message")
 public class KafkaTestMessageController {
 
-    private final KafkaTestMessageProducerService kafkaTestMessageProducerService;
-    private final KafkaTestInstanceProducerService kafkaTestInstanceProducerService;
+    private final InstanceDispatchedProducerService instanceDispatchedProducerService;
+    private final SimpleSakInstanceProducerService simpleSakInstanceProducerService;
+    private final SimpleJournalpostInstanceProducerService simpleJournalpostInstanceProducerService;
 
-    public KafkaTestMessageController(KafkaTestMessageProducerService kafkaTestMessageProducerService, KafkaTestInstanceProducerService kafkaTestInstanceProducerService) {
-        this.kafkaTestMessageProducerService = kafkaTestMessageProducerService;
-        this.kafkaTestInstanceProducerService = kafkaTestInstanceProducerService;
+    public KafkaTestMessageController(InstanceDispatchedProducerService instanceDispatchedProducerService, SimpleSakInstanceProducerService simpleSakInstanceProducerService, SimpleJournalpostInstanceProducerService simpleJournalpostInstanceProducerService) {
+        this.instanceDispatchedProducerService = instanceDispatchedProducerService;
+        this.simpleSakInstanceProducerService = simpleSakInstanceProducerService;
+        this.simpleJournalpostInstanceProducerService = simpleJournalpostInstanceProducerService;
     }
 
     @PostMapping("instance-dispatched")
@@ -38,12 +40,13 @@ public class KafkaTestMessageController {
                 .build();
 
         KafkaTestMessage kafkaTestMessage = KafkaTestMessage.builder().build();
-        kafkaTestMessageProducerService.publish(instanceFlowHeaders, kafkaTestMessage);
+        instanceDispatchedProducerService.publish(instanceFlowHeaders, kafkaTestMessage);
 
         return Mono.just(ResponseEntity.status(HttpStatus.CREATED).build());
     }
-    @PostMapping("egrunnerverv-case-instance")
-    public Mono<ResponseEntity<?>> publishOnTopicEgrunnervervCaseInstance(
+
+    @PostMapping("egrunnerverv-sak-instance")
+    public Mono<ResponseEntity<?>> publishOnTopicEgrunnervervSimpleSakInstance(
             @RequestBody KafkaTestMessageDto kafkaTestProducerDto
     ) {
 
@@ -51,7 +54,21 @@ public class KafkaTestMessageController {
                 .sysId(kafkaTestProducerDto.getBody().getSysId())
                 .tableName(kafkaTestProducerDto.getBody().getTableName())
                 .build();
-        kafkaTestInstanceProducerService.publish(kafkaTestMessage);
+        simpleSakInstanceProducerService.publish(kafkaTestMessage);
+
+        return Mono.just(ResponseEntity.status(HttpStatus.CREATED).build());
+    }
+
+    @PostMapping("egrunnerverv-journalpost-instance")
+    public Mono<ResponseEntity<?>> publishOnTopicEgrunnervervSimpleJournalpostInstance(
+            @RequestBody KafkaTestMessageDto kafkaTestProducerDto
+    ) {
+
+        KafkaTestMessage kafkaTestMessage = KafkaTestMessage.builder()
+                .sysId(kafkaTestProducerDto.getBody().getSysId())
+                .tableName(kafkaTestProducerDto.getBody().getTableName())
+                .build();
+        simpleJournalpostInstanceProducerService.publish(kafkaTestMessage);
 
         return Mono.just(ResponseEntity.status(HttpStatus.CREATED).build());
     }

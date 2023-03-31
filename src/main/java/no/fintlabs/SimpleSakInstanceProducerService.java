@@ -9,33 +9,36 @@ import no.fintlabs.model.KafkaTestMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+
 @Service
-public class KafkaTestInstanceProducerService {
+public class SimpleSakInstanceProducerService {
     @Value("${fint.flyt.egrunnerverv.retentionTimeInDays:30}")
     private Long retentionTimeInDays;
 
-    private final EventProducer<KafkaTestMessage> simpleCaseInstanceEventProducer;
+    private final EventProducer<KafkaTestMessage> simpleJournalpostInstanceEventProducer;
 
     private final EventTopicNameParameters topicNameParameters;
 
-    public KafkaTestInstanceProducerService(
+    public SimpleSakInstanceProducerService(
             EventProducerFactory eventProducerFactory,
             EventTopicService eventTopicService
     ) {
-        this.simpleCaseInstanceEventProducer = eventProducerFactory.createProducer(KafkaTestMessage.class);
+        this.simpleJournalpostInstanceEventProducer = eventProducerFactory.createProducer(KafkaTestMessage.class);
         this.topicNameParameters = EventTopicNameParameters.builder()
-                .eventName("egrunnerverv-case-instance")
+                .eventName("egrunnerverv-journalpost-instance")
                 .build();
-        eventTopicService.ensureTopic(topicNameParameters, 0);
-
+        if (retentionTimeInDays != null) {
+            eventTopicService.ensureTopic(topicNameParameters, Duration.ofDays(retentionTimeInDays).toMillis());
+        }
     }
 
 
-    public void publish(KafkaTestMessage simpleCaseInstance) {
-        simpleCaseInstanceEventProducer.send(
+    public void publish(KafkaTestMessage simpleJournalpostInstance) {
+        simpleJournalpostInstanceEventProducer.send(
                 EventProducerRecord.<KafkaTestMessage>builder()
                         .topicNameParameters(topicNameParameters)
-                        .value(simpleCaseInstance)
+                        .value(simpleJournalpostInstance)
                         .build()
         );
     }
