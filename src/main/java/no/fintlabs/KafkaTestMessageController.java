@@ -34,6 +34,7 @@ public class KafkaTestMessageController {
 
         InstanceFlowHeaders instanceFlowHeaders = InstanceFlowHeaders.builder()
                 .sourceApplicationId(kafkaTestProducerDto.getHeaders().getSourceApplicationId())
+                .sourceApplicationIntegrationId(kafkaTestProducerDto.getHeaders().getSourceApplicationIntegrationId())
                 .sourceApplicationInstanceId(kafkaTestProducerDto.getHeaders().getSourceApplicationInstanceId())
                 .archiveInstanceId(kafkaTestProducerDto.getHeaders().getArchiveInstanceId())
                 .correlationId(kafkaTestProducerDto.getHeaders().getCorrelationId())
